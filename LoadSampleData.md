@@ -9,3 +9,7 @@ Unzip and inspect the files in the sampledata folder, what do you see?
 
 Use the ``mongorestore`` tool to load data into your ``mongod``, and then
 shell in and inspect the data you loaded.
+
+*Hint*: There is a directory called ``dump`` in the extracted zip file. You'll need the path to this
+directory when you run ``mongorestore``.
+
