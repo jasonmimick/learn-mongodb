@@ -32,4 +32,4 @@ should you specify?)
 }
 ```
 
-*Hint*: You'll need a terminal session on your laptop to get things running adn run the ``mongo`` shell.
+*Hint*: You'll need a terminal session on your laptop to get things running and run the ``mongo`` shell.
