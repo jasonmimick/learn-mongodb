@@ -25,6 +25,14 @@ How many students got less than a 60 on their quiz?
 > db.scores.find( { "kind" : "quiz", "score" : { $lte : 60 } } ).count()
 213
 
+> use students
+switched to db students
+> var cursor = db.scores.find()
+> while ( cursor.hasNext() ) {
+... var doc = cursor.next();
+... db.temp.students.insert(doc);
+... }
+
 Insert some data into documents with array’s and do some queries:
 > for (var i=0;i<100;i++) {
 ... var tags = [];
