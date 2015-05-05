@@ -29,3 +29,17 @@ You have to figure how to complete the above!
 * Try to shell in again, now using your credentials. *(Remember to google stuff to figure out the details!)*
 * Create another user with only ``read`` access on the ``students`` database.
 * Shell in as that user and verify you cannot insert a document into the ``students`` database.
+
+Logged in as your 'superUser' you should see something like this in the ``system.users`` collection:
+
+```
+> use admin
+switched to db admin
+> show collections
+system.indexes
+system.users
+system.version
+> db.system.users.find()
+{ "_id" : "admin.root", "user" : "root", "db" : "admin", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "khoGP8a7n1A/MEpQ3VLjRQ==", "storedKey" : "wWTIRLPCW8gBegUcBvYt7EYjdFA=", "serverKey" : "buk7i8wTIsNBHA0kIIJseYTIeh0=" } }, "roles" : [ { "role" : "userAdminAnyDatabase", "db" : "admin" }, { "role" : "readWriteAnyDatabase", "db" : "admin" }, { "role" : "dbAdminAnyDatabase", "db" : "admin" } ] }
+{ "_id" : "students.john", "user" : "john", "db" : "students", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "2GHaIJReKQj9+vSQDkX/fw==", "storedKey" : "FfGOYtXaj+JlGXcVMO1NJVNdqCQ=", "serverKey" : "u2Cta0RmXe5SFthhsukey6KZ7O8=" } }, "roles" : [ { "role" : "read", "db" : "students" } ] }
+```
