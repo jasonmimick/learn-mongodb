@@ -1,7 +1,7 @@
 Install your own MongoDB 
 =
 
-Good Morning - get some coffee and solve this challenge!
+Good Morning - get some coffee or your favorite beverage and solve this challenge!
 Install a stand alone MongoDB on your provided MacBook.
 This should be the latest stable version available - cutting edge stuff.
 We'll use this instance for some additional exercises.
