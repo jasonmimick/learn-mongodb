@@ -21,6 +21,8 @@ Afternoon
 -
 
 Security
+* [SecurityBasics.md](SecurityBasics.md)
+* SSL/LDAP exercise from handout
 
 
 Extra
