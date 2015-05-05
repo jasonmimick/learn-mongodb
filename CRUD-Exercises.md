@@ -15,7 +15,8 @@ And answer the following questions about the ``students.scores`` collection.
 5. How many students got less than a 60 on their quiz?
 6. Create a copy of all the scores in another collection to use later, then update all the 
 students who got less than a 60 on any kind of score with a new field, ``needsHelp`` : ``true``
-7. Find the lowest overall quiz score and then delete all the scores for that student - he was expelled.
+7. Find the student with the lowest number which has the lowest overall quiz score 
+and then delete all the scores for that student - he was expelled.
 8. A new student transfered into your school, add them to the scores collection. (Make up values for 
 the the new students score's on each kind of score.)
 
