@@ -14,3 +14,13 @@ shell in and inspect the data you loaded.
 directory when you run ``mongorestore``. Additionally, for this exercise, you want to load all the
 collections from the zip file into your ``mongod`` instance.
 
+You should see the following databases:
+```
+> show dbs
+fruits    0.031GB
+local     0.031GB
+students  0.031GB
+stuff     0.031GB
+>
+```
+
