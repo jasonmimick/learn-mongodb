@@ -6,7 +6,7 @@ This exercise will help you practice your ability to query and mondify data in M
 
 Start a shell connecting to:
 
-And answer the following questions about the ``school.students`` collection.
+And answer the following questions about the ``students.scores`` collection.
 
 1. How many scores are there?
 2. What are the different``kind``’s of scores?
