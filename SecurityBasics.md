@@ -23,6 +23,9 @@ Here is little *hint*...
 >var superUser = { "user" : <some-user-name>, "pwd" : <some-password>, roles : [ ... ]
 >db.createUser(
 ```
+
+*hint* #2 - http://docs.mongodb.org/manual/tutorial/add-user-administrator/
+
 You have to figure how to complete the above!
 * Restart your ``mongod`` with ``--auth``.
 * Now try to shell in as usual and try to query something, what happens?
