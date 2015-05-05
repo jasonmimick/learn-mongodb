@@ -8,7 +8,7 @@ We'll use this instance for some additional exercises.
 
 Hints
 ~
-* Find a URL to download from.
+* Find a URL to download from - OR - copy the latest kit from your thumb drive
 * Think about how you want to run your ``mongod`` (what ``dbpath`` do you want? what other configuration options 
 should you specify?)
 * Get Mongo running, shell in and make sure things look right. If they do, then you should see something like this:
