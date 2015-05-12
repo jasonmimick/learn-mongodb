@@ -15,6 +15,10 @@ db.scores.find( { “type” : “quiz” } ) // note 1000
 db.scores.find( { “test” : “essay” } ) // note 1000
 ...therefore must be 3 types
 
+OR
+db.scores.distinct("type")
+[ "exam", "quiz", "essay" ]
+
 How many students got at least a 90 on their exam?
 > db.scores.find( { "kind" : "exam", "score" : { $gte : 90 } } ).count()
 201
