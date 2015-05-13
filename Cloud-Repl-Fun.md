@@ -8,6 +8,9 @@ First - you'll need a way to access your server in the cloud. The best practice 
 an SSH client. If you're using a *nix system, then you've already got one. If you're on a Windows system, 
 then I recommend grabbing Putty from http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe and installing.
 
+Download the RL-Rocks.pem file to your laptop.
+Find your EC2 node below, and use ssh to connect.
+
 Team Name     | Amazon Node  
 --- | ---
 Reading | aws.com
