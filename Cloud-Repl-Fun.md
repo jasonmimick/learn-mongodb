@@ -13,9 +13,9 @@ Find your EC2 node below, and use ssh to connect.
 
 Team Name     | Amazon Node  
 --- | ---
-Reading | aws.com
-Writing | aws.com
-Science | aws2.com
-Math | sdsd.com
+ONE | ec2-54-234-31-25.compute-1.amazonaws.com
+TWO | ec2-107-21-143-52.compute-1.amazonaws.com
+THREE | ec2-54-167-87-168.compute-1.amazonaws.com
+FOUR | ec2-54-83-120-193.compute-1.amazonaws.com
 
 
