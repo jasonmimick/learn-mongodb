@@ -34,7 +34,7 @@ Do this INSTEAD of what's on page 150 "Configure the Replica Set"
     mongo localhost:27021
     > rs.help()
     > config = {
-      _id: 'demoReplicaSet',
+      _id: 'myReplSet',
       members: [
         { _id: 0, host: '<HOSTNAME>:27021' },
         { _id: 1, host: '<HOSTNAME>:27022' },
