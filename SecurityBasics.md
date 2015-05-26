@@ -46,3 +46,10 @@ system.version
 { "_id" : "admin.root", "user" : "root", "db" : "admin", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "khoGP8a7n1A/MEpQ3VLjRQ==", "storedKey" : "wWTIRLPCW8gBegUcBvYt7EYjdFA=", "serverKey" : "buk7i8wTIsNBHA0kIIJseYTIeh0=" } }, "roles" : [ { "role" : "userAdminAnyDatabase", "db" : "admin" }, { "role" : "readWriteAnyDatabase", "db" : "admin" }, { "role" : "dbAdminAnyDatabase", "db" : "admin" } ] }
 { "_id" : "students.john", "user" : "john", "db" : "students", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "2GHaIJReKQj9+vSQDkX/fw==", "storedKey" : "FfGOYtXaj+JlGXcVMO1NJVNdqCQ=", "serverKey" : "u2Cta0RmXe5SFthhsukey6KZ7O8=" } }, "roles" : [ { "role" : "read", "db" : "students" } ] }
 ```
+
+Auth with Replica Sets
+=
+
+Run through this tutorial to enable auth in your 3.0.3 repl set:
+
+http://docs.mongodb.org/manual/tutorial/deploy-replica-set-with-auth/
