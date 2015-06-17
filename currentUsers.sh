@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cludgey script to show current MongoDB users.
-# All complaints and remittence: jason.mimick@mongodb.com
+# All complaints and remittance: jason.mimick@mongodb.com
 #
 # stop running if any errors
 set -e  
