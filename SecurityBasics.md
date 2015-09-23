@@ -9,9 +9,12 @@ But - how can connect without making users yet? There is a special feature calle
 exception" which allows a ``mongod`` to accept a connection from the same computer as long as no
 users have been created yet.
 
-Users are defined within a database. Each user has an associtated set of roles. Each role defines 
+Users are defined within the context of a database. Each user has an associtated set of roles. Each role defines 
 priviliges, each of which is comprised of actions against a database or collection. Please consult the
 official documentation for full details.
+
+One important thing to remember is that since each user is scoped to a database, one must authenticate
+against that database.
 
 For this exercise, we'll create a user first and then enable security.
 
