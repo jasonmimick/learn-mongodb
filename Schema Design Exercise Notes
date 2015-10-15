@@ -1,0 +1,54 @@
+products
+{ _id : <SKU>,
+  name : “Lamp”,
+// materialized path of categories, can have separate collection with tree
+// index of products.category can do ^queries quickly 
+  category : [ “products/household/multipurpose/”, “products/lighting/” ]
+  current_price,
+  total_views : <sum of all views>
+  total_purchases : $inc
+  // arbitrary attributes
+  tags : [ { key : “color”, value : “blue” },
+	     { key : “size”, value : “medium” } ]
+
+  // index on (tags.key, tags.value) for searches
+  // cache last 30 days of views and purchase data
+  // for graph metrics - every hour
+  views : [ { date : today,
+              pageviews_per_hour : [ 0, 0, 2, …. ] <array with 24 values>},
+		 …
+		 { date : today-30,
+               pageviews_per_hour : [....]
+         ],
+  reviews: [
+          { _id: { sku : <SKU>, counter : <counter>}, 
+            date:“Date”, 
+            user:”Jason”, 
+		votes : $inc,
+            review : <first n chars…>
+          },
+          {},...]  // store latest/top 10 & click to see comments in another collection
+
+  // same for purchases
+  // VERY IMPORTANT to “pre-allocate” these arrays to avoid the document growing larger than it’s “slot” in the disk and needing to be moved.
+}
+ 
+// store historical views, and purchase history
+products_views_history 
+// each doc is a snapshot of the 30 day cache - so every end-of-month
+// run a job to grab the current value of the view cache in the product
+// document and copy over to this collection
+
+{ _id : {sku, month+year}, views = [ {}, {}, …. ] }
+
+// same for product_purchase_history
+ 
+price_history 
+{ _id : { sku, start, stop }, price : 22.99 }
+
+review_history 
+
+reviews:{ _id: { sku : <SKU>, counter : <counter>}, 
+          date:“Date”, 
+          user:”Jason”, votes:$inc, 
+          comments[{comment:”comment”, user:”user ID”}] // have to limit though or at least not index on comments
