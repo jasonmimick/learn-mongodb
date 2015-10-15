@@ -1,4 +1,4 @@
-db = db.getSiblingDB("students");
+db = db.getSiblingDB("sample");
 
 var p1 = db.runCommand( 
 { "aggregate" : "scores",
@@ -29,7 +29,14 @@ var p1 = db.runCommand(
             _id : "$C_score_count",
             students : { $addToSet : "$_id" }
         }
-    } 
+    } , {
+        $project : {
+            "_id" : 0,
+            "Number_of_C_scores" : "$_id",
+            "student_ids" : "$students"
+
+        }
+    }
 ]});
 printjson(p1);
 
