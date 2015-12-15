@@ -28,7 +28,7 @@ Look around at the collections: states, airports
 ## ```$geoWithin```
 Now let's get going....
 
-Find the airports in California - the $geoWithin operator
+Find the airports in California - the ```$geoWithin``` operator
 
 ```javascript
 >use geo
@@ -46,7 +46,7 @@ Note - there is another collection called airports.noindex - try the above query
 
 ## ```$geoIntersects```
 
-Another geographic operator is $geoIntersects - this will tell you if 2 geoJSON polygons touch or overlap with each other.
+Another geographic operator is ```$geoIntersects``` - this will tell you if 2 geoJSON polygons touch or overlap with each other.
 
 Here's how to find all the states bordering California:
 
