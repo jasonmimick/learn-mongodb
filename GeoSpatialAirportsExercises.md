@@ -122,17 +122,17 @@ db.airports.find(
 
 The ```geoNear``` command will return a document containing results sorted by proximity. This command is a little more complex, but basically the same.
 
-###Challenge #4:### What does the following code return? Try it out, break down the code and explain.
+***Challenge #4:*** What does the following code return? Try it out, break down the code and explain.
 
 ```javascript
->var r = db.runCommand( 
+var r = db.runCommand( 
   { geoNear : "airports", 
     near : {           
       type : "Point" ,           
       coordinates : [-73.965355,40.782865]         
     }, 
    spherical : true, maxDistance : 30000 } );
->r.results.forEach( function(r) { print(r.obj.name+" "+r.dis/1000+"km") } )
+r.results.forEach( function(r) { print(r.obj.name+" "+r.dis/1000+"km") } )
 ```
 
 
