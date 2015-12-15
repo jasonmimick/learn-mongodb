@@ -1,25 +1,37 @@
-Special GeoSpatial Exercises
-Disconnect from any VPN or special network software which will prevent you from accessing the full internet.
+# Special GeoSpatial Exercises
 
-Launch a mongo shell connected to a cloud server with some sample geo data:
+#### *Disconnect from any VPN or special network software which will prevent you from accessing the full internet.*
 
+
+ Launch a mongo shell connected to a cloud server with some sample geo data:
+
+```bash
 mongo jmimick-demo1.mongodb-field.com:20187/geo -u student -p p0wer!
+```
 
+##### *or*
+
+```bash
 mongo --host jmimick-demo1.mongodb-field.com --port 20187 --authenticationDatabase geo -u student -p p0wer!
+```
 
-Warmup-Challenge #1: Can you explain what the arguments in the command above mean?
+**Warmup-Challenge #1:** Can you explain what the arguments in the command above mean?
 
 Look around at the collections: states, airports
 
-Warmup-Challenge #2: How many airports are there?
+**Warmup-Challenge #2:** How many airports are there?
+
+Now let's get going....
 
 Find the airports in California - the $geoWithin operator
 
+```javascript
 >use geo
 >var cal = db.states.findOne( { "code" : "CA" } )
 >db.airports.find(
 { "loc" : { $geoWithin : { $geometry : cal.loc } } },
 { "name" : 1, "code" : 1, "type" : 1, "_id" : 0 } )
+```
 
 Challenge #1: Find the international airports within New York.
 
