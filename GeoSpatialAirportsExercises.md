@@ -25,6 +25,7 @@ Look around at the collections: states, airports
 
 ---
 
+## ```$geoWithin```
 Now let's get going....
 
 Find the airports in California - the $geoWithin operator
@@ -42,6 +43,9 @@ Find the airports in California - the $geoWithin operator
 Note - there is another collection called airports.noindex - try the above query against that collection. Does it work? Check the explain() output and note the use or no-use of indexes.
 
 ---
+
+## ```$geoIntersects```
+
 Another geographic operator is $geoIntersects - this will tell you if 2 geoJSON polygons touch or overlap with each other.
 
 Here's how to find all the states bordering California:
@@ -58,6 +62,7 @@ Here's how to find all the states bordering California:
 
 ---
 
+## ```$near```
 Another very useful operator is ```$near```. It's used to find things "close" to another thing - it deals with proximity, so to use this you need to supply a point and then some maximum distance.
 
 Let's find all the international airports within 20km (~12.42 miles) of Central Park in New York City (The ```$near``` operator expects the distance in meters.)
