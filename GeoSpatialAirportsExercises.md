@@ -28,7 +28,7 @@ Look around at the collections: states, airports
 ## ```$geoWithin```
 Now let's get going....
 
-Find the airports in California - the ```$geoWithin``` operator
+Find the airports in California - the [```$geoWithin```](https://docs.mongodb.org/manual/reference/operator/query/geoWithin/) operator
 
 ```javascript
 >use geo
@@ -46,7 +46,7 @@ Note - there is another collection called airports.noindex - try the above query
 
 ## ```$geoIntersects```
 
-Another geographic operator is ```$geoIntersects``` - this will tell you if 2 geoJSON polygons touch or overlap with each other.
+Another geographic operator is [```$geoIntersects```](https://docs.mongodb.org/manual/reference/operator/query/geoIntersects/) - this will tell you if 2 geoJSON polygons touch or overlap with each other.
 
 Here's how to find all the states bordering California:
 
@@ -63,7 +63,7 @@ Here's how to find all the states bordering California:
 ---
 
 ## ```$near```
-Another very useful operator is ```$near```. It's used to find things "close" to another thing - it deals with proximity, so to use this you need to supply a point and then some maximum distance.
+Another very useful operator is [```$near```](https://docs.mongodb.org/manual/reference/operator/query/near/). It's used to find things "close" to another thing - it deals with proximity, so to use this you need to supply a point and then some maximum distance.
 
 Let's find all the international airports within 20km (~12.42 miles) of Central Park in New York City (The ```$near``` operator expects the distance in meters.)
 
@@ -136,5 +136,5 @@ The ```geoNear``` command will return a document containing results sorted by pr
 ```
 
 
-If you are interested, you can download the state/airport dataset here: geo.zip
+If you are interested, you can download the state/airport dataset here: [geo.zip](https://www.dropbox.com/s/yui7shcud2xbxt7/geo.zip)
 
