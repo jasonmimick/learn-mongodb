@@ -17,9 +17,13 @@ mongo --host jmimick-demo1.mongodb-field.com --port 20187 --authenticationDataba
 
 **Warmup-Challenge #1:** Can you explain what the arguments in the command above mean?
 
+---
+
 Look around at the collections: states, airports
 
 **Warmup-Challenge #2:** How many airports are there?
+
+---
 
 Now let's get going....
 
@@ -33,27 +37,32 @@ Find the airports in California - the $geoWithin operator
 { "name" : 1, "code" : 1, "type" : 1, "_id" : 0 } )
 ```
 
-Challenge #1: Find the international airports within New York.
+***Challenge #1:*** Find the international airports within New York.
 
 Note - there is another collection called airports.noindex - try the above query against that collection. Does it work? Check the explain() output and note the use or no-use of indexes.
 
+---
 Another geographic operator is $geoIntersects - this will tell you if 2 geoJSON polygons touch or overlap with each other.
 
 Here's how to find all the states bordering California:
 
+```javascript
 >var cal = db.states.findOne( { "code" : "CA" } )
 >db.states.find(
 { "loc" : { $geoIntersects : { $geometry : cal.loc } },
   "code" : { $ne : cal.code } },
 { "name" : 1, "code" : 1, "type" : 1, "_id" : 0 } )
+```
 
-Challenge #2: Find all the non-international airports in states which border Nebraska.
+***Challenge #2:*** Find all the non-international airports in states which border Nebraska.
 
-Another very useful operator is $near. It's used to find things "close" to another thing - it deals with proximity, so to use this you need to supply a point and then some maximum distance.
+---
 
-Let's find all the international airports within 20km (~12.42 miles) of Central Park in New York City (The $near operator expects the distance in meters.)
+Another very useful operator is ```$near```. It's used to find things "close" to another thing - it deals with proximity, so to use this you need to supply a point and then some maximum distance.
 
+Let's find all the international airports within 20km (~12.42 miles) of Central Park in New York City (The ```$near``` operator expects the distance in meters.)
 
+```javascript
 db.airports.find(
  {
    loc : {
@@ -73,16 +82,20 @@ db.airports.find(
    _id : 0
  }
 )
+```
 
 You should see: 
+
+```javascript
 { "name" : "La Guardia", "code" : "LGA" }
 { "name" : "Newark Intl", "code" : "EWR" }
+```
 
 Seems JFK is a bit farther out. 
 
-Challenge #3: Find all the airports within 25km of the Washington monument in DC.
+***Challenge #3:*** Find all the airports within 25km of the Washington monument in DC.
 
-
+```javascript
 db.airports.find(
  {
    loc : {
@@ -100,11 +113,13 @@ db.airports.find(
    _id : 0
  }
 )
+```
 
-The geoNear command will return a document containing results sorted by proximity. This command is a little more complex, but basically the same.
+The ```geoNear``` command will return a document containing results sorted by proximity. This command is a little more complex, but basically the same.
 
-Challenge #4: What does the following code return? Try it out, break down the code and explain.
+###Challenge #4:### What does the following code return? Try it out, break down the code and explain.
 
+```javascript
 >var r = db.runCommand( 
   { geoNear : "airports", 
     near : {           
@@ -113,6 +128,7 @@ Challenge #4: What does the following code return? Try it out, break down the co
     }, 
    spherical : true, maxDistance : 30000 } );
 >r.results.forEach( function(r) { print(r.obj.name+" "+r.dis/1000+"km") } )
+```
 
 
 If you are interested, you can download the state/airport dataset here: geo.zip
