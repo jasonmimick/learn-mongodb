@@ -120,7 +120,9 @@ db.airports.find(
 )
 ```
 
-The ```geoNear``` command will return a document containing results sorted by proximity. This command is a little more complex, but basically the same.
+## ```geoNear```
+
+The [```geoNear```](https://docs.mongodb.org/v3.0/reference/command/geoNear/) command will return a document containing results sorted by proximity. This command is a little more complex, but basically the same.
 
 ***Challenge #4:*** What does the following code return? Try it out, break down the code and explain.
 
