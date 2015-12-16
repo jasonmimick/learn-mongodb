@@ -31,5 +31,32 @@ jmimick-db-student-5 | ec2-54-163-72-32.compute-1.amazonaws.com | Joe
 jmimick-db-student-6 | ec2-54-145-243-0.compute-1.amazonaws.com | Tex
 jmimick-db-student-7 | ec2-54-157-218-56.compute-1.amazonaws.com | Austin
 
+---
+Shell into your new MongoDB replSet/cluster/standalone and generate some load
 
+```javascript
+var writeData = function() {
+   for (var i=0;i<1000;i++) {
+      db.testcol.insert( { "a" : i, "ts" : new Date(), "data" : Math.floor( Math.random() * 100000 ) } )
+    }
+}
+
+var readData = function() {
+  for (var i=0;i<200;i++ ) {
+    db.testcol.find( { "a" : i } )
+  }
+}
+
+var load = function() { 
+  for (var i=0;i<10000;i++) {
+    print("writing data" + i );
+    writeData();
+    print("reading data " + i );
+    readData();
+  }
+}
+
+load();
+
+```
 
