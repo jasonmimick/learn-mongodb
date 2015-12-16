@@ -3,8 +3,8 @@
 Instructions:
 https://docs.opsmanager.mongodb.com/master/tutorial/install-simple-test-deployment/
 
-1. Download putty.exe
-2. Fetch private putty key (jmimickstudent.ppk)
+1. Download [putty.exe](http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe)
+2. Fetch private putty key [jmimickstudent.ppk](jmimickstudent.ppk)
 
 
 Machine Name | Public DNS | Owner 
