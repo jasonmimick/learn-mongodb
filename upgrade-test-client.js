@@ -16,10 +16,6 @@ var connectionString = "mongodb://ec2-54-172-76-252.compute-1.amazonaws.com:2701
                         "ec2-54-173-185-120.compute-1.amazonaws.com/?" +
                         "replicaSet=FLUFFY&w=majority&readPreference=primaryPreferred";
 
-connectionString = "mongodb://ec2-52-91-1-26.compute-1.amazonaws.com:27017," +
-                   "ec2-52-91-1-26.compute-1.amazonaws.com:27018/?" +
-                   "w=majority&readPreference=primaryPreferred";
-
 var connection = new Mongo( connectionString );
 
 var db = connection.getDB("test");
