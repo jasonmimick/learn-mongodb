@@ -1,20 +1,23 @@
-//var auditDB = db.getSiblingDB('audit');
+db = db.getSiblingDB('test');
 
-db.foo.drop();
-db.bar.drop();
-db.createCollection("foo");
-db.createCollection("bar");
-db.foo.createIndex({"x":1});
-db.bar.createIndex({"x":1});
+var collections = [ "foo", "foo2", "bar", "bar2"];
+
+collections.forEach( function(coll) {
+    db.getCollection(coll).drop();
+    db.createCollection(coll);
+    db.getCollection(coll).createIndex( { "x" : 1 });
+});
+
 var loadData = function() {
+    
     for (var i=0;i<10000;i++) {
         var x = Math.floor(Math.random()*3);
-        db.foo.insert({_id:i, "x" : x});
-        db.bar.insert({_id:i, "x" : x});
+        collections.forEach( function(coll) {
+            db.getCollection(coll).insert({_id:i, "x" : x});
+        });
     }
-    db.foo.copyTo("foo2");
-    db.bar.copyTo("bar2");
 }
+
 loadData();
 var query = { "x" : Math.floor(Math.random()*3) };
 printjson(query);
@@ -36,8 +39,6 @@ var bulkDelete = function() {
         var doc = fooCursor.next();
         fooBulk.find( { "_id" : doc._id } ).remove();
         barBulk.find( { "_id" : doc._id } ).remove();
-        //print( doc._id );
-        //print(((++count / totalCount) * 100) + "% Completed");
     }
 
 
@@ -54,9 +55,6 @@ var regularDelete = function() {
     db.foo2.find(query).forEach( function(doc) {
         db.foo2.remove( { "_id" : doc._id } );
         db.bar2.remove( { "_id" : doc._id } );
-        //print( doc._id );
-        //print(((++count / totalCount) * 100) + "% Completed");
-
     });
 
 }
