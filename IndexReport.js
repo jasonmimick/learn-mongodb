@@ -1,5 +1,5 @@
 /*
- * ValidateIndexes.js
+ * IndexReport.js
  *
  * Scans multiple nodes, gathers index information,
  * and compares across other nodes.
