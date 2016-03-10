@@ -36,7 +36,7 @@ var p1 = db.runCommand(
             "student_ids" : "$students"
 
         }
-    }
+    } 
 ]});
 printjson(p1);
 
