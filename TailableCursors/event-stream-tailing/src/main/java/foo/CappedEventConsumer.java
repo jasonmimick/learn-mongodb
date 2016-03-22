@@ -100,6 +100,7 @@ public final class CappedEventConsumer { //extends EventConsumer {
                     find(query)
                     .batchSize(1000000)
                     .projection(projection)
+                    .oplogReplay(true)
                     .cursorType(CursorType.TailableAwait).iterator();
                 long stopTime = System.currentTimeMillis();
 

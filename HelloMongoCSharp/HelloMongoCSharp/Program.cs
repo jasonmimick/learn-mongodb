@@ -9,19 +9,46 @@ namespace HelloMongoCSharp
 	{
 		public static void Main (string[] args)
 		{
+            if ( args.Length > 0 && args[0]=="testConnectionString" ) {
+                Console.WriteLine("foo");
+                TestConnectionString(args);
+                return;
+            }
 			Console.WriteLine ("Hello MongoDB with CSharp!");
 			ValidateWriteResultNew ();
 		}
 
+        public async static void TestConnectionString(string[] args) {
+            if ( args.Length <= 1 ) {
+                Console.WriteLine("Invalid arguments");
+                return;
+            }
+            var conn = args[1];
+            try {
+                var client = new MongoClient( conn );
+                Console.WriteLine(client);
+                var cursor = await client.ListDatabasesAsync();
+                Console.WriteLine(cursor);
+                await cursor.ForEachAsync( db => Console.WriteLine(db["name"])); 
+                Console.ReadLine();
+            } catch (Exception e ) {
+                Console.WriteLine(e.Message);
+                Console.ReadLine();
+            }
+            Console.WriteLine("foo");
+        }
+
 		public async static void ValidateWriteResultNew() {
-			var client = new MongoClient ();
+            var connectionString = "mongodb://localhost:28010,localhost:28011,localhost:28012/foors";
+			var client = new MongoClient ( connectionString );
 			var db = client.GetDatabase ("test2");
 			// throw a bunch of unacked writes.
-			var wc = WriteConcern.Unacknowledged;
+			//var wc = WriteConcern.Unacknowledged;
 			var settings = new MongoCollectionSettings ();
-			settings.WriteConcern = wc;
-			settings.ReadPreference = ReadPreference.Nearest;
+			//settings.WriteConcern = wc;
+			//settings.ReadPreference = ReadPreference.Nearest;
 
+            db.DropCollectionAsync("actions");
 			var actions = db.GetCollection<BsonDocument> ("actions", settings);
 
 			//db.DropCollectionAsync ("actions").GetAwaiter ().GetResult ();
@@ -36,7 +63,7 @@ namespace HelloMongoCSharp
 				}));
 			}
 
-			//actions.InsertManyAsync (docs).GetAwaiter ().GetResult ();
+			actions.InsertManyAsync(docs).GetAwaiter().GetResult ();
 		
 			try {
 				var dup = new BsonDocument( new Dictionary<String, Object>() {
