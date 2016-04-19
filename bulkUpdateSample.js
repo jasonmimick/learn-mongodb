@@ -3,6 +3,8 @@ var db = db.getSiblingDB("test");
 db.foo.drop();
 var bulk = db.foo.initializeUnorderedBulkOp();
 
+// default batch size for bulk operations is 1000
+// experiment with this setting to find the best performance
 var BATCH_SIZE=500;
 var ids = [ "HW9QR4", "AJPN6L", "C4NG2J", "FTNYEN", "FEYS5J" ]; //....
 // If you want to code-generate the list of ids,
@@ -11,6 +13,9 @@ var ids = [ "HW9QR4", "AJPN6L", "C4NG2J", "FTNYEN", "FEYS5J" ]; //....
 // and then call load("generatedIds.js")
 // in this script to setup the 'ids' variable
 
+/*
+* Generate some fake data to update
+*/
 var build_mock_data = function() {
    ids.forEach( function(id) { 
        print("inserting id="+id);
@@ -20,6 +25,7 @@ var build_mock_data = function() {
 
 build_mock_data();
 
+/* Iterate through ids */
 var counter = 1;
 ids.forEach( function(id) {
     bulk.find({"_id" : id, 'PassengerNameRecord.MqEnqueueDateTime': {$exists: false}}) 
@@ -27,7 +33,7 @@ ids.forEach( function(id) {
     
     if ( ( counter++ % BATCH_SIZE ) === 0 ) {
         var result = bulk.execute();
-        printjson(result);
+        // always check BulkWriteResult to make sure no errors
         if ( result.getEriteErrorCount() > 0)  {
             print("ERROR");
             printjson(result);
@@ -36,6 +42,7 @@ ids.forEach( function(id) {
 
     }
 });
+// need to call execute() one more time for last batch
 var result = bulk.execute();
         
 if ( result.getWriteErrorCount() > 0 ) {
