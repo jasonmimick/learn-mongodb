@@ -1,0 +1,11 @@
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] MongoDB starting : pid=47421 port=12831 dbpath=inmem/ 64-bit host=Jasons-MacBook-Pro.local
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] db version v3.2.0-rc5
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] git version: 593eedf0abb5081c911c03ab3d1db5b6afaa4ac5
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] allocator: system
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] modules: none
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] build environment:
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten]     distarch: x86_64
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten]     target_arch: x86_64
+2015-12-08T16:32:02.666-0500 I CONTROL  [initandlisten] options: { net: { port: 12831 }, storage: { dbPath: "inmem/", engine: "inMemoryExperiment" }, systemLog: { destination: "file", path: "inmem/mongod.log" } }
+2015-12-08T16:32:02.670-0500 I STORAGE  [initandlisten] exception in initAndListen: 18656 Cannot start server with an unknown storage engine: inMemoryExperiment, terminating
+2015-12-08T16:32:02.670-0500 I CONTROL  [initandlisten] dbexit:  rc: 100

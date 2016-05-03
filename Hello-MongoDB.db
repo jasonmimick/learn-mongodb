@@ -1,0 +1,74 @@
+Hello MongoDB!
+
+As per regulations, you should start with an "Hello, World!" program.
+
+But first, let's set some expectations.
+MongoDB is a new, internet-scale born database. It does not
+yet have out of the box GUI tools. We'll be exploring the database 
+in a `text-mode`, using a Linux/OSX shell or Windows command prompt.
+Start a mongod. Working in this mode is actually just the same as 
+the drag-and-drop, windowy, GUIs you might be used to. Just think about
+where you are (what directory in the file system) and, when executing
+binaries how the shell will interperate what you are typing ($PATH 
+evironment variables, location of files/directories in command arguments).
+This new text-world may seem daunting at first, but actually, after some
+practice, you will find new levels of productivity working in this mode.
+You'll also be able to have 100% confidence.
+
+Your installation of MongoDB consists of a dozen-plus executable binaries,
+found in the {{bin}} directory of where you unzipped the downloaded kit.
+Each of these binaries has a special purpose. We'll start with two of the 
+most popular binaries {{mongod}} and {{mongo}}. 
+
+{{mongod}} is the core database deamon. That means that it's a program
+meant to run on a server and accept network connections from clients.
+Once such client is the {{mongo}} binary. {{mongo}} is an interactive
+shell which connects to a {{mongod}} and allows you to do all kinds of 
+things with data like queries, updates. You can also do database 
+administration and performance analysis. 
+
+The {{$}} indicates an operating system shell. {{>}} denotes commands 
+entered into the Mongo shell.
+
+You're going to fire up a real {{mongod}}. It will need a place to put
+your data - create a directory to store the raw data files.
+
+Fire up your shell. Where are you in your file system? Think about
+where you'd like MongoDB to put it's datafiles. For learning purposes, 
+it's good to use your home directory and do something like this:
+
+$cd ~
+$mkdir mongo-data
+
+Now we have a place for data. Next, 
+
+$cd <path_to_your_mongodb_installation>
+$cd bin     // since that's where the binaries are, or you can add this 
+            // directory to your $PATH
+
+(Alternatively, of course, you can just know where you Mongo binaries are
+and give full paths to them in your shell.)
+
+Start a mongodb, listening on the __default__ port 27017, putting data files
+into ~/mongo-data, and logging to the console (writing log data into the shell
+standard output).
+
+$./mongod --dbpath ~/mongo-data
+
+You should see logging output in your console window.
+Let's connect to that {{mongod}}, fire up another shell.
+Get to, or enter the full path to {{mongo}}.
+
+$./mongo
+
+This will start a shell session. How does {{mongo}} know how to connect
+to {{mongod}}? Good question!! It knows because MongoDB uses lots of __defaults__
+for different parameters. In this case, {{mongo}} uses the default {{hostname}}
+of {{localhost}} and the default {{port}} of {{27017}}. These default happen to
+work, since that's hwo we started our {{mongod}}. You should see something like:
+
+MongoDB shell version: 3.1.1
+connecting to: test
+>
+
+
