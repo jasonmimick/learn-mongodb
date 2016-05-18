@@ -80,9 +80,9 @@ final class DriverDemo32 {
                 System.out.println("db.test.count()="+collection.count());
                 System.out.println(" **** Query Filters **** ");
                 System.out.println("static Helpers to build query documents");
-                System.out.println("db.test.find{\"count\":71}).next()");
+                System.out.println("db.test.find{\"count\":17}).next()");
                 System.out.println("becomes....");
-                System.out.println("collection.find(eq(\"count\",71)).first()");
+                System.out.println("collection.find(eq(\"count\",17)).first()");
                 doc = collection.find(eq("count", 17)).first();
                 System.out.println(doc.toJson());
             } catch (Exception e) {

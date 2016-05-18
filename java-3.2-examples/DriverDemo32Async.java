@@ -18,12 +18,14 @@ final class DriverDemo32Async {
             System.exit(1);
         }
         try {
-            int numberOfDemos = 2;
-            final CountDownLatch latch = new CountDownLatch( numberOfDemos );
+            DriverDemo32Async.Demo[] demos = new DriverDemo32Async.Demo[] { simpleQuery, lookup, mapIntoDemo };
+
+            final CountDownLatch latch = new CountDownLatch( demos.length );
             MDB mdb = new MDB(args[0],"demo-async","demo-async");
             System.out.println("MongoDB Java Driver 3.2 Demo - Async");
-            simpleQuery.demo(mdb,latch);
-            mapIntoDemo.demo(mdb,latch);
+            for(DriverDemo32Async.Demo demo : demos) {
+                demo.demo(mdb,latch);
+            }
             latch.await();
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,39 +133,69 @@ final class DriverDemo32Async {
         }
     };
 
-    /*
-    static DriverDemo32.Demo lookup = new DriverDemo32.Demo() {
+    static DriverDemo32Async.Demo lookup = new DriverDemo32Async.Demo() {
 
-        public void demo(MDB mdb) {
+        public void demo(MDB mdb,CountDownLatch latch) {
             System.out.println(" ######## $lookup ######## ");
             System.out.println(" Generate sample data" );
-            mdb.getDatabase().getCollection("colors").drop();
-            mdb.getDatabase().getCollection("items").drop();
-            mdb.getAndSetCollection("colors");
-            List<Document> colors = new ArrayList<Document>();
-            colors.add( new Document("_id",1).append("color","red") );
-            colors.add( new Document("_id",2).append("color","yellow") );
-            colors.add( new Document("_id",3).append("color","green") );
-            colors.add( new Document("_id",4).append("color","blue") );
-            colors.add( new Document("_id",5).append("color","brown") );
-            mdb.getCollection().insertMany(colors);
+
+            SingleResultCallback<Void> aggregation = new SingleResultCallback<Void>() {
+                @Override
+                public void onResult(final Void result,final Throwable t) {
+                    List<Bson> pipeline = new ArrayList<Bson>();
+                    pipeline.add( lookup("colors","color","_id","color") );
+                    pipeline.add( unwind("$color") );
+                    pipeline.add( project( fields(include("name"),computed("color","$color.color"),excludeId() ) ) );
+                    mdb.getAndSetCollection("items").aggregate( pipeline ).forEach(printDocument,
+                        new SingleResultCallback<Void>() {
+                            @Override
+                            public void onResult(final Void result,final Throwable t) {
+                                checkThrowable(t);
+                                latch.countDown();
+                            }
+                        }   
+                    );
+                }
+            };
+
+            SingleResultCallback createItems = new SingleResultCallback<Void>() {
+                @Override
+                public void onResult(final Void result, final Throwable t) {
                 
-            List<Document> items = new ArrayList<Document>();
-            for(int i=0;i<1000;i++) {
-            items.add( new Document("name","item"+i).append("color",i%5) );
-            }
-            mdb.getAndSetCollection("items").insertMany(items);
-            List<Bson> pipeline = new ArrayList<Bson>();
-            pipeline.add( lookup("colors","color","_id","color") );
-            pipeline.add( unwind("$color") );
-            pipeline.add( project( fields(include("name"),computed("color","$color.color"),excludeId() ) ) );
-            AggregateIterable<Document> results = mdb.getCollection().aggregate( pipeline );
-            for (Document result : results) {
-                System.out.println(result.toJson());
-            }
+                    List<Document> items = new ArrayList<Document>();
+                    for(int i=0;i<1000;i++) {
+                        items.add( new Document("name","item"+i).append("color",i%5) );
+                    }
+                    mdb.getAndSetCollection("items").insertMany(items,aggregation);
+                }
+            };
+           SingleResultCallback<Void> createColors = new SingleResultCallback<Void>() {
+                @Override
+                public void onResult(final Void result,final Throwable t) {
+                    checkThrowable(t);
+                    mdb.getAndSetCollection("colors");
+                    List<Document> colors = new ArrayList<Document>();
+                    colors.add( new Document("_id",1).append("color","red") );
+                    colors.add( new Document("_id",2).append("color","yellow") );
+                    colors.add( new Document("_id",3).append("color","green") );
+                    colors.add( new Document("_id",4).append("color","blue") );
+                    colors.add( new Document("_id",5).append("color","brown") );
+                    mdb.getCollection().insertMany(colors, createItems );
+                }
+            };  
+           
+           SingleResultCallback<Void> dropItems = new SingleResultCallback<Void>() {
+                @Override
+                public void onResult(final Void result,final Throwable t) {
+                    checkThrowable(t);
+                    mdb.getDatabase().getCollection("items").drop( createColors );
+                }
+            };
+
+            mdb.getDatabase().getCollection("colors").drop(dropItems);
+
         }
     };
-    */
 
     
     static DriverDemo32Async.Demo mapIntoDemo = new DriverDemo32Async.Demo() {
