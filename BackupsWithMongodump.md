@@ -115,6 +115,9 @@ First, make sure the applications connecting to your MongoDB are shutdown or pau
 possible. If not, once we bring down the replica set your application will start to 
 generate lots of errors.
 
+Before we start shutting down the replica set, run the  ```ps -ef | grep mongod``` command 
+and take note of how the ```mongod```'s are running. We'll need this information later.
+
 Gracefully shut down all the nodes in your replica set, starting with the current
 secondaries:
 
@@ -166,7 +169,7 @@ If you're running your replica set with command line parameters, then add the fo
 $mongod <other options> --bind_ip 127.0.0.1
 ```
 
-and **remove** the ``--replSet`` arugment.
+and **remove** the ``--replSet`` arugment. 
 
 
 Now restart the node we chose to load the data, and connect a shell. Note that since
