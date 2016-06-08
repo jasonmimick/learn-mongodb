@@ -238,7 +238,7 @@ Each secondary should now begin to resync all it's data.
 
 **SECTION NOT COMPLETE YET**
 
-
+https://docs.mongodb.com/manual/tutorial/resync-replica-set-member/#sync-by-copying-data-files-from-another-member
 
 Now, restart
 
