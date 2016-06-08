@@ -67,7 +67,7 @@ $ls -l dump
 
 By default ```mongodump``` will write the backup files into a directory
 called ```dump```. You can control the output directory, run 
-```mongodump --help`` to see all the options available.
+```mongodump --help``` to see all the options available.
 
 Now we can unlock the secondary, so go back to the shell session
 and issue the following:
@@ -96,7 +96,7 @@ Before we practice a restore, let's write some more data to the replica set.
 This way once we've restored, we can prove to ourselves that the data has 
 reverted to the perivous state when we make the backup.
 
-Run the ```sampleDataLoader.js`` script again against your primary node.
+Run the ```sampleDataLoader.js``` script again against your primary node.
 
 #Restore the backup#
 
@@ -105,7 +105,7 @@ have to take some down-time in order to restore the backup. There is not a way
 to restore a backup without downtime (restoring backups does not work like 
 "rolling-maintenance"").
 
-First, make sure the applications connect to your MongoDB are shutdown or paused if 
+First, make sure the applications connecting to your MongoDB are shutdown or paused if 
 possible. If not, once we bring down the replica set your application will start to 
 generate lots of errors.
 
@@ -121,7 +121,7 @@ Finally connect to the original primary (which by this point will be in ```SECON
 and read only) and shut it down just like above.
 
 The restore strategy can follow a couple of paths here, but generally the idea will be to
-delete all the data files in each node and then use the ```mongorestore`` tool to load the data
+delete all the data files in each node and then use the ```mongorestore``` tool to load the data
 in. The simplest approach is to just let each secondary resync the data - this can be 
 prohibitive however with large dataset since it takes time. 
 
@@ -142,7 +142,7 @@ Our plan here will be to chose one node to load the data into and then let it re
 Pick one node and reconfigure it to run in standalone more and only list on the localhost
 interface.
 
-If you run your ```mongod```'s with a config file, edit each node's config file adding the
+If you run your ```mongod```'s with a config file, edit the chosed node's config file adding the
 net.bindIp and commenting out the replication settings (comment out all replication settings):
 
 ```
@@ -164,7 +164,7 @@ and **remove** the ``--replSet`` arugment.
 
 
 Now restart the node we chose to load the data, and connect a shell. Note that since
-we changed the configuration, you'll only be able to connect a ```mongo`` shell from seesion on
+we changed the configuration, you'll only be able to connect a ```mongo``` shell from seesion on
 the server.
 
 From your ```mongo``` shell:
@@ -173,7 +173,7 @@ From your ```mongo``` shell:
 PRIMARY:replSet>show dbs
 ```
 
-We want to drop all these databases ##except## the ```admin``` and ```local``` database. These are 
+We want to drop all these databases **except** the ```admin``` and ```local``` database. These are 
 reserved system databases.
 
 For each database in your instance run: ```db.getSiblingDB(<DB_NAME>).dropDatabase()```. Where you
@@ -219,7 +219,7 @@ $cd /data/db
 $rf -Rf *
 ```
 
-Back on node we loaded data into, revert the config changes: remove the ```bindIp`` 
+Back on node we loaded data into, revert the config changes: remove the ```bindIp``` 
 and uncomment out the replication settings.
 Restart this node we loaded the data into & ensure it starts correctly and then restart all your nodes.
 Each secondary should now begin to resync all it's data.
