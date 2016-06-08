@@ -8,7 +8,7 @@ The exercise assumes you have a running replica set.
 #High Level Steps#
 1. Chose a secondary to run the backup on
 2. Pause the secondary
-3. Run the ```mongodump`` tool
+3. Run the ```mongodump``` tool
 4. Un-pause the secondary
 5. Compress the backup
 6. Restore the backup
