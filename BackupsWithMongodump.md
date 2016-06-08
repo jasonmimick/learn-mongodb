@@ -133,7 +133,7 @@ you'll also wipe out the replica set configuration, which may not be ideal shoul
 configuration. So, for this example, we take the later option. ##But## you must make sure no applications
 will connect to the replica set. One way to prevent this is for sure, is to reconfigure your network
 DNS settings to make the MongoDB nodes unavailable. Or you could edit the configuration files for your 
-```mongod```'s and manipulate the ```[bindIp][https://docs.mongodb.com/manual/reference/configuration-options/#net.bindIp]``` 
+```mongod```'s and manipulate the ```[bindIp](https://docs.mongodb.com/manual/reference/configuration-options/#net.bindIp)``` 
 parameter to only listen on 127.0.0.1 which will in 
 effect only allow connections from the same server the ```mongod``` is running. This exercise
 will chose this later option as well.
