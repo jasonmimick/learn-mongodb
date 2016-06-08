@@ -42,7 +42,8 @@ In your first prompt, open a ```mongo``` shell to the secondary you wish to take
 a backup on and run the following:
 
 ```
-SECONDARY:replSet>db.fsyncLock()
+SECONDARY:replSet>print(new Date()); db.fsyncLock()
+Tue Jun 07 2016 21:41:33 GMT-0400 (EDT)
 {
 	"info" : "now locked against writes, use db.fsyncUnlock() to unlock",
 	"seeAlso" : "http://dochub.mongodb.org/core/fsynccommand",
@@ -52,6 +53,10 @@ SECONDARY:replSet>db.fsyncLock()
 
 **keep this shell open** and **do not close this shell session until we're
 done with the backup!**
+Note, here you are actually running 2 things. Printing out the current date/time
+and running the lock command. We print out the date information so there is a
+record of when the data was frozed; we'll use this later to archive off the data
+and label it appropriately.
 
 Now, in your second comment prompt we'll use the ```mongodump``` tool
 to dump out BSON files with all the data in all the collections:
@@ -74,3 +79,15 @@ SECONDARY:replSet>db.fsyncUnlock()
 ```
 
 At this point your replica set is back to normal operational status.
+
+Now you have a directory containing your backup. You'll probably want to 
+save this data off somewhere safe, it's a backup afterall. On Linux based
+systems, the following command will compress the backup data into
+one file:
+
+```
+$tar czvf mongo-backup-2016-06-07-21-41-33-GMT-0400.tar.gz dump
+```
+
+*note your datetime will be different so replace accordingly*.
+
