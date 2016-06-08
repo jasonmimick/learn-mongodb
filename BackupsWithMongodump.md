@@ -187,27 +187,48 @@ PRIMARY:replSet>db.getSiblingDB("test").dropDatabase()
 We can now restore.
 
 Let's take our archive created before and uncompress it (you'll probably want
-to uncompress in some temp directory). Assuming our archive is in a directory called
-```/archives/mongodb```:
+to uncompress in some temp directory). Assuming our archive is in a directory called 
+``` /archives/mongodb ```:
+
 
 ```
 $cd /temp
 $mkdir mongo-backup-2016-06-07-21-41-33-GMT-0400
+$cd mongo-backup-2016-06-07-21-41-33-GMT-0400
 $tar xzvf /archives/mongodb/mongo-backup-2016-06-07-21-41-33-GMT-0400.tar.gz 
 ```
 
+Now run the ```mongorestore``` command:
 
-##More complex, restore with pre-seeding##
+```
+$pwd
+/temp
+$mongorestore <connection_info> mongo-backup-2016-06-07-21-41-33-GMT-0400/dump
+```
 
-**SECTION NOT COMPLETE YET**
+This will load all the data into the temporary standalong node.
 
-For each node in the replica set, figure out the ```--dbpath``` and delete all the files in 
+Getting back to a fully functional state is straighforward now.
+Stop the standalone node you just loaded the data.
+
+For each other node in the replica set, figure out the ```--dbpath``` and delete all the files in 
 this directory. For example:
 
 ```
 $cd /data/db
 $rf -Rf *
 ```
+
+Back on node we loaded data into, revert the config changes: remove the ```bindIp`` 
+and uncomment out the replication settings.
+Restart this node we loaded the data into & ensure it starts correctly and then restart all your nodes.
+Each secondary should now begin to resync all it's data.
+
+##More complex, restore with pre-seeding##
+
+**SECTION NOT COMPLETE YET**
+
+
 
 Now, restart
 
