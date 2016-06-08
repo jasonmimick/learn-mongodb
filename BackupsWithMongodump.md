@@ -3,6 +3,12 @@
 This exercise will work through an example of taking a backup from
 a MongoDB replica set and then restoring the backup.
 
+There are multiple strategies for doing backups with MongoDB, here we
+are going through a basic example of using MongoDB tools to do a backup
+on a replica set. This is only an example; please use at your own risk 
+and please test your procedures thouroughly before running this on 
+any production systems.
+
 The exercise assumes you have a running replica set.
 
 #High Level Steps#
