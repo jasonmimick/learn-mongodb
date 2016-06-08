@@ -148,10 +148,10 @@ effect only allow connections from the same server the ```mongod``` is running. 
 will chose this later option as well.
 
 Our plan here will be to chose one node to load the data into and then let it replicate.
-Pick one node and reconfigure it to run in standalone more and only list on the localhost
+Pick one node and reconfigure it to run in standalone mode and only list on the localhost
 interface.
 
-If you run your ```mongod```'s with a config file, edit the chosed node's config file adding the
+If you run your ```mongod```'s with a config file, edit the chosen node's config file adding the
 net.bindIp and commenting out the replication settings (comment out all replication settings):
 
 ```
@@ -173,13 +173,14 @@ and **remove** the ``--replSet`` arugment.
 
 
 Now restart the node we chose to load the data, and connect a shell. Note that since
-we changed the configuration, you'll only be able to connect a ```mongo``` shell from seesion on
-the server.
+we changed the configuration, you'll only be able to connect a ```mongo``` shell from session on
+the server. Note - you should see a warning message about the instance running without the ```--replSet```
+aregument but replication configuration existing.
 
 From your ```mongo``` shell:
 
 ```
-PRIMARY:replSet>show dbs
+>show dbs
 ```
 
 We want to drop all these databases **except** the ```admin``` and ```local``` database. These are 
