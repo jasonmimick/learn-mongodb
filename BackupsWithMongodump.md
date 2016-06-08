@@ -138,14 +138,19 @@ parameter to only listen on 127.0.0.1 which will in
 effect only allow connections from the same server the ```mongod``` is running. This exercise
 will chose this later option as well.
 
-Before we restart the replica set nodes, we'll reconfigure them to only list on the localhost
+Our plan here will be to chose one node to load the data into and then let it replicate.
+Pick one node and reconfigure it to run in standalone more and only list on the localhost
 interface.
 
-If you run your ```mongod```'s with a config file, edit each node's config file adding:
+If you run your ```mongod```'s with a config file, edit each node's config file adding the
+net.bindIp and commenting out the replication settings (comment out all replication settings):
 
 ```
 net:
    bindIp: 127.0.0.1
+...
+#replication:
+#   replSetName: replSet
 ```
 
 If you're running your replica set with command line parameters, then add the following to your
@@ -155,10 +160,14 @@ If you're running your replica set with command line parameters, then add the fo
 $mongod <other options> --bind_ip 127.0.0.1
 ```
 
-Now restart all the nodes, connect to one and figure out which is the primary. Note that since
-we changed the configuration, you'll only be able to connect a shell from the server of each node.
+and **remove** the ``--replSet`` arugment.
 
-On the primary, connect a shell:
+
+Now restart the node we chose to load the data, and connect a shell. Note that since
+we changed the configuration, you'll only be able to connect a ```mongo`` shell from seesion on
+the server.
+
+From your ```mongo``` shell:
 
 ```
 PRIMARY:replSet>show dbs
@@ -175,9 +184,17 @@ PRIMARY:replSet>db.getSiblingDB("test").dropDatabase()
 { "dropped" : "test", "ok" : 1 }
 ```
 
-This should replicate fairly quickly to all the nodes.
-
 We can now restore.
+
+Let's take our archive created before and uncompress it (you'll probably want
+to uncompress in some temp directory). Assuming our archive is in a directory called
+```/archives/mongodb```:
+
+```
+$cd /temp
+$mkdir mongo-backup-2016-06-07-21-41-33-GMT-0400
+$tar xzvf /archives/mongodb/mongo-backup-2016-06-07-21-41-33-GMT-0400.tar.gz 
+```
 
 
 ##More complex, restore with pre-seeding##
