@@ -130,13 +130,59 @@ prohibitive however with large dataset since it takes time.
 There are options here as well. We could either blow away all the data files on each node and restore.
 Or we could manually drop all the databases and then restore. If you blow away all the data files, then 
 you'll also wipe out the replica set configuration, which may not be ideal should you have a complicated
-configuration. So, for this example, we take the later option. ##But## you must make sure no applications
+configuration. So, for this example, we take the later option. **But** you must make sure no applications
 will connect to the replica set. One way to prevent this is for sure, is to reconfigure your network
 DNS settings to make the MongoDB nodes unavailable. Or you could edit the configuration files for your 
-```mongod```'s and manipulate the ```[bindIp](https://docs.mongodb.com/manual/reference/configuration-options/#net.bindIp)``` 
+```mongod```'s and manipulate the [bindIp](https://docs.mongodb.com/manual/reference/configuration-options/#net.bindIp)
 parameter to only listen on 127.0.0.1 which will in 
 effect only allow connections from the same server the ```mongod``` is running. This exercise
 will chose this later option as well.
+
+Before we restart the replica set nodes, we'll reconfigure them to only list on the localhost
+interface.
+
+If you run your ```mongod```'s with a config file, edit each node's config file adding:
+
+```
+net:
+   bindIp: 127.0.0.1
+```
+
+If you're running your replica set with command line parameters, then add the following to your
+```mongod``` command:
+
+```
+$mongod <other options> --bind_ip 127.0.0.1
+```
+
+Now restart all the nodes, connect to one and figure out which is the primary. Note that since
+we changed the configuration, you'll only be able to connect a shell from the server of each node.
+
+On the primary, connect a shell:
+
+```
+PRIMARY:replSet>show dbs
+```
+
+We want to drop all these databases ##except## the ```admin``` and ```local``` database. These are 
+reserved system databases.
+
+For each database in your instance run: ```db.getSiblingDB(<DB_NAME>).dropDatabase()```. Where you
+should replace ```DB_NAME``` with the real names of your databases. For example:
+
+```
+PRIMARY:replSet>db.getSiblingDB("test").dropDatabase()
+{ "dropped" : "test", "ok" : 1 }
+```
+
+This should replicate fairly quickly to all the nodes.
+
+We can now restore.
+
+
+##More complex, restore with pre-seeding##
+
+**SECTION NOT COMPLETE YET**
 
 For each node in the replica set, figure out the ```--dbpath``` and delete all the files in 
 this directory. For example:
