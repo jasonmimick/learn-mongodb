@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+      <head>
+            <title>Geolocation</title>
+            <meta name="viewport" content="initial-scale=1.0, user-scalable=yes">
+            <meta charset="utf-8">
+            <style>
+                  html, body, div {
+                        height: 100%;
+                        margin: 0;
+                        padding: 0;
+                font-family: arial;
+                      }
+            #map { 
+                height: 100%;
+            }
+
+        </style>
+    </head>
+      <body>
+        <div style="width: 100%; height: 100%; position: absolute;">
+            <h3>geoJSON data with MongoDB</h3>
+                <div id="map" style="width: 95%; height: 90%"></div>
+        </div>
+                        <script>
+                  // Note: This example requires that you consent to location sharing when
+                  // prompted by your browser. If you see the error "The Geolocation service
+                  // failed.", it means you probably did not give permission for the browser to
+                  // locate you.
+            var numSecondsBetweenAirportQueries = 3;
+            var theMap = {};
+            var currentBounds = {};
+            var lastRequestAirportsTS = new Date();
+            var airportInfoWindow = {};
+            function markAirports(response) {
+                console.log("markAirports");
+                console.dir(response.target.response);
+                var airports = JSON.parse(response.target.response);
+                console.dir(airports);
+                for(i in airports) {
+                    var airport = airports[i];
+                    console.dir(airport);
+                    var latLng = { "lat" : airport.location.coordinates[1], "lng" : airport.location.coordinates[0] };
+                    var content = airport.name + '<br/>Code:' + airport.code + "<br/>Lat:" + latLng.lat + " Long:" + latLng.lng;
+                    var marker = new google.maps.Marker({
+                        position: latLng,
+                        map: theMap,
+                        title: airport.name,
+                        content: content
+                    });
+                    //http://you.arenot.me/2010/06/29/google-maps-api-v3-0-multiple-markers-multiple-infowindows/
+                    google.maps.event.addListener(marker,'click', function() { 
+                        airportInfoWindow.setContent(this.content);
+                        console.log('click! ' + this.content);
+                        airportInfoWindow.open(theMap,this);
+                    });
+                }
+            }
+            // using the currentBounds global variable
+            // ask the backend for the airports within the bounds
+            function requestAirports(force=false) {
+                // only allow to be called every 10 seconds
+                if ( !force) {
+                    var now = new Date();
+                    if ((now - lastRequestAirportsTS) < numSecondsBetweenAirportQueries*1000) {
+                        return; 
+                    }
+                    lastRequestAirportsTS = now;
+                }
+                var request;
+                if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+                    request = new XMLHttpRequest();
+                    } else if (window.ActiveXObject) { // IE
+                    try {
+                        request = new ActiveXObject('Msxml2.XMLHTTP');
+                        } catch (e) {
+                        try {
+                            request = new ActiveXObject('Microsoft.XMLHTTP');
+                        } catch (e) {}
+                    }
+                }
+                request.open('POST', '/', true);
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.addEventListener('load',markAirports);
+                request.send(JSON.stringify(currentBounds));
+            };
+            var firstLoad = true;
+                  function initMap() {
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                              center: {lat: -34.397, lng: 150.644},
+                              zoom: 10
+                            });
+                theMap = map;
+                google.maps.event.addListener(map, 'bounds_changed', function() {
+                    var bounds =  map.getBounds();
+                    var ne = bounds.getNorthEast();
+                    var sw = bounds.getSouthWest();
+                    //do whatever you want with those bounds
+                    // keep track of current bounds, then every so often go back to mongo
+                    // get list of airports within the bounds
+                    // and set markers for each
+                    currentBounds = bounds;
+                    requestAirports(firstLoad);
+                    firstLoad = false;
+                    //alert('ne='+ne+' sw='+sw);
+                });
+                        var infoWindow = new google.maps.InfoWindow({map: map});
+                        // Try HTML5 geolocation.
+                        if (navigator.geolocation) {
+                              navigator.geolocation.getCurrentPosition(function(position) {
+                                    var pos = {
+                                          lat: position.coords.latitude,
+                                          lng: position.coords.longitude
+                                        };
+                                    infoWindow.setPosition(pos);
+                                    infoWindow.setContent('Your location.');
+                                    map.setCenter(pos);
+                                  }, function() {
+                                    handleLocationError(true, infoWindow, map.getCenter());
+                                  });
+                        } else {
+                              // Browser doesn't support Geolocation
+                              handleLocationError(false, infoWindow, map.getCenter());
+                        }
+                airportInfoWindow = new google.maps.InfoWindow({
+                    content: "Nothing yet..." 
+                });
+
+
+                  }
+
+                  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent(browserHasGeolocation ?
+                                              'Error: The Geolocation service failed.' :
+                                              'Error: Your browser doesn\'t support geolocation.');
+            }
+                </script>
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhFp2h4jTJVSZn8jtiobZlDiCPx9cC92s&callback=initMap">
+                </script>
+          </body>
+</html>
+
+
