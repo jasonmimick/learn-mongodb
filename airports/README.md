@@ -5,18 +5,19 @@ This project is a self-contained demonstration of
 using geographical data with MongoDB. It consists
 of a dataset of airports & train stations along with a
 simple web-app leveraging Google Maps to interactively
-mark the transit stations depending on what area viewable
+mark the transit stations depending on what area is viewable
 on the map.
 
 This README is meant as a tutorial, walking through the
-installation, components and data structures required to
+installation, components, data structures, and logic required to
 leverage basic geographical data within MongoDB.
 
 ## Requirements
 
-Python 2.7+ & pymongo
-Local MongoDB
-Your Google Maps API key
+-Python 2.7+
+-pymongo
+-Local MongoDB
+-Your Google Maps API key
 
 ## Getting Started &
 
@@ -32,7 +33,7 @@ mongoimport -d test -c airports.raw --headerline \
 ```
 
 Now, we need to convert the raw geographical data into
-the geoJSON format. getJSON is an independent specification
+the geoJSON format. geoJSON is an independent specification
 for encoding arbitrary spatial data within JSON, this includes geographical
  data. The full specification is found at http://geojson.org/ and a good
   place to get to know geoJSON is http://geojson.io/.
@@ -65,8 +66,8 @@ Each raw documents looks like this:
 }
 ```
 
-Note the ```Longitude``` and ```Latitude``` keys which have the
-degrees.minutes.secondsDirection format. geoJSON requires this format:
+Note the ```Longitude``` and ```Latitude``` keys have the
+``degrees.minutes.secondsDirection`` format. geoJSON requires this format:
 
 ```
 {
@@ -79,7 +80,7 @@ degrees.minutes.secondsDirection format. geoJSON requires this format:
 ```
 
 This is how to specify a point. The coordinates here are
-[ latitude, longitude] in decimal format. So we have some work to do
+[latitude, longitude] in decimal format. So we have some work to do
 to convert these data. Here is the conversion formula
 
 ```
@@ -87,31 +88,32 @@ decimal = degrees + (minutes/60) + (seconds/3600)
 if ( Direction is W or S) then
   decimal = -decimal
 ```
-This logic is implemented in the [createGeoJson.js](creatGeoJson.js)
+This logic is implemented in the
+[createGeoJson.js](/blob/master/airports/createGeoJson.js)
 script, which you can run with:
 
 ```
 mongo createGeoJson.js
 ```
 
-(The [load-data.sh](load-data.sh) helper script does the import
-and conversion.)
+(The [load-data.sh](/blob/master/airports/load-data.sh) helper script
+does the import and conversion.)
 
 The application is served from a local Python server
-implemented in [rest-api.py](rest-api.py). This script
+implemented in [rest-api.py](/blob/master/airports/rest-api.py). This script
 listens on a port for HTTP requests. It can serve the
-[static/airports.html](static/airports.html) file or
+[static/airports.html](/blob/master/airports/static/airports.html) file or
 respond to PORT requests to get a list of airports
 within a given region.
 
-[airports.html](static/airports.html) contains the
+[airports.html](/blob/master/airports/static/airports.html) contains the
 Google Maps API code, and is pretty much a straight rip off the examples
  Google posts. We added a few functions which
 fire off events to callback to the python script with the (East, North)
  and (West, South) boundary points from the currently displayed map
  (conveniently in decimal format).
 
-The POST request is handled in [rest-api.py](rest-api.py):
+The POST request is handled in [rest-api.py](/blob/master/airports/rest-api.py):
 
 ```
 bounds = json.loads(web.data())
@@ -199,7 +201,8 @@ $python ./rest-api.py
 
 And then open up [http://localhost:8080](http://localhost:8080).
 
-(airports.html)[static/airports.html] contains a variable
+![sample Google map](sample-map.png "Sample Google map")
+[airports.html](static/airports.html) contains a variable
 ``numSecondsBetweenAirportQueries`` which controls how
 often a request for airport data can fire off (the ```bounds-changed``` event
   can fire off very often.)
