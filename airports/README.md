@@ -214,4 +214,4 @@ often a request for airport data can fire off (the ```bounds-changed``` event
 This completes the geoJSON & MongoDB sample. Please see the official
 [MongoDB geoJSON](https://docs.mongodb.com/manual/reference/geojson/)
 documentation for more information and if you have any questions or
-issues please use the [issues](issues) tab. Thanks.
+issues please use the [issues](/issues) tab. Thanks.
