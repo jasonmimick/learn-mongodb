@@ -89,31 +89,31 @@ if ( Direction is W or S) then
   decimal = -decimal
 ```
 This logic is implemented in the
-[createGeoJson.js](/blob/master/airports/createGeoJson.js)
+[createGeoJson.js](createGeoJson.js)
 script, which you can run with:
 
 ```
 mongo createGeoJson.js
 ```
 
-(The [load-data.sh](/blob/master/airports/load-data.sh) helper script
+(The [load-data.sh](load-data.sh) helper script
 does the import and conversion.)
 
 The application is served from a local Python server
-implemented in [rest-api.py](/blob/master/airports/rest-api.py). This script
+implemented in [rest-api.py](rest-api.py). This script
 listens on a port for HTTP requests. It can serve the
-[static/airports.html](/blob/master/airports/static/airports.html) file or
+[static/airports.html](static/airports.html) file or
 respond to PORT requests to get a list of airports
 within a given region.
 
-[airports.html](/blob/master/airports/static/airports.html) contains the
+[airports.html](static/airports.html) contains the
 Google Maps API code, and is pretty much a straight rip off the examples
  Google posts. We added a few functions which
 fire off events to callback to the python script with the (East, North)
  and (West, South) boundary points from the currently displayed map
  (conveniently in decimal format).
 
-The POST request is handled in [rest-api.py](/blob/master/airports/rest-api.py):
+The POST request is handled in [rest-api.py](rest-api.py):
 
 ```
 bounds = json.loads(web.data())
@@ -201,7 +201,6 @@ $python ./rest-api.py
 
 And then open up [http://localhost:8080](http://localhost:8080).
 
-![sample Google map](sample-map.png "Sample Google map")
 [airports.html](static/airports.html) contains a variable
 ``numSecondsBetweenAirportQueries`` which controls how
 often a request for airport data can fire off (the ```bounds-changed``` event
