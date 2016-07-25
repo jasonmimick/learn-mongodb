@@ -14,10 +14,10 @@ leverage basic geographical data within MongoDB.
 
 ## Requirements
 
--Python 2.7+
--pymongo
--Local MongoDB
--Your Google Maps API key
+* Python 2.7+
+* pymongo
+* Local MongoDB
+* Your Google Maps API key
 
 ## Getting Started &
 
@@ -77,18 +77,20 @@ Note the ```Longitude``` and ```Latitude``` keys have the
 			-15.780555555555557
 		]
 	}
+}
 ```
 
-This is how to specify a point. The coordinates here are
-[latitude, longitude] in decimal format. So we have some work to do
-to convert these data. Here is the conversion formula
+This is how to specify a point. The coordinates are
+[latitude, longitude] and in decimal format. We can stick a JSON Object
+formatted thusly into any key in our documents. But first, we have
+some work to do to convert these data. Here is the conversion formula:
 
 ```
 decimal = degrees + (minutes/60) + (seconds/3600)
 if ( Direction is W or S) then
   decimal = -decimal
 ```
-This logic is implemented in the
+All this logic is implemented in the
 [createGeoJson.js](createGeoJson.js)
 script, which you can run with:
 
@@ -102,8 +104,8 @@ does the import and conversion.)
 The application is served from a local Python server
 implemented in [rest-api.py](rest-api.py). This script
 listens on a port for HTTP requests. It can serve the
-[static/airports.html](static/airports.html) file or
-respond to PORT requests to get a list of airports
+[airports.html](static/airports.html) file or
+respond to POST requests to get a list of airports
 within a given region.
 
 [airports.html](static/airports.html) contains the
@@ -144,12 +146,13 @@ airport_data = []
     return json.dumps(airport_data)
 ```
 
-For the query to MongoDB we create a Polygon from the two coordinates
+For the above query to MongoDB we create a Polygon from the two coordinates
  which Google Maps gives. An example map;
 
 ![sample Google map](sample-map.png "Sample Google map")
 
-Posts
+would POST something like this when the ``bounds-changed`` event fires:
+
 ```
 { u'west': -74.95311758476561,
   u'east': -72.44823477226561,
@@ -157,7 +160,8 @@ Posts
   u'south': 42.5719574637479 }
 ```
 
-This converts into the following ```location``` attribute for our ```find()``` query predicate:
+This converts into the following ```location``` attribute
+for our ```find()``` query predicate:
 ```
 {'location': {
   '$geoWithin': {
@@ -196,12 +200,18 @@ The results returned are an array of these type of documents:
 ```
 
 Start the python server with:
-
+```
 $python ./rest-api.py
-
+```
 And then open up [http://localhost:8080](http://localhost:8080).
 
 [airports.html](static/airports.html) contains a variable
 ``numSecondsBetweenAirportQueries`` which controls how
 often a request for airport data can fire off (the ```bounds-changed``` event
   can fire off very often.)
+
+
+This completes the geoJSON & MongoDB sample. Please see the official
+[MongoDB geoJSON](https://docs.mongodb.com/manual/reference/geojson/)
+documentation for more information and if you have any questions or
+issues please use the [issues](issues) tab. Thanks.

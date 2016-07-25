@@ -27,7 +27,7 @@ while ( cursor.hasNext() ) {
     airport._id = airportRaw._id;
     airport.code = airportRaw.Code;
     airport.name = airportRaw.Name;
-    airport.location = { 
+    airport.location = {
         "type" : "Point",
         "coordinates" : [ convertDMSToDecimal(airportRaw.Longitude)
                           ,convertDMSToDecimal(airportRaw.Latitude) ]
@@ -36,18 +36,3 @@ while ( cursor.hasNext() ) {
     printjson(result);
 
 }
-// better aggregation!
-/*
-var project = { "$project" : {
-    "_id" : 1,
-    "code" : "$Code",
-    "name" : "$Name",
-    "geometry" : {
-        "type" : { "$literal" : "Point" },
-        "coordinates" : [ "$Longitude", "$Latitude" ]
-    }
-}};
-
-var out = { "$out" : "airports.test" }
-db.airports.raw.aggregate( [ project, out ] );
-*/
