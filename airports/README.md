@@ -81,7 +81,7 @@ Note the ```Longitude``` and ```Latitude``` keys have the
 ```
 
 This is how to specify a point. The coordinates are
-[latitude, longitude] and in decimal format. We can stick a JSON Object
+[longitude, latitude] and in decimal format. We can stick a JSON Object
 formatted thusly into any key in our documents. But first, we have
 some work to do to convert these data. Here is the conversion formula:
 
