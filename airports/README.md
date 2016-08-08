@@ -21,7 +21,7 @@ leverage basic geographical data within MongoDB.
 
 ## Getting Started &
 
-Clone this repository.
+Download the files in this folder.
 
 Start a local MongoDB instance.
 
