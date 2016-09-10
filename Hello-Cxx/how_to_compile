@@ -1,0 +1,8 @@
+  728  clang++ -I/Users/jmimick/work/mongo-cxx-driver/build/install/include -I/Users/jmimick/work/boost_1_61_0/ -pthread -L/Users/jmimick/work/mongo-cxx-driver/build/install/lib -L/Users/jmimick/work/boost_1_61_0/stage/lib -lmongoclient -lboost_thread -lboost_system -lboost_regex -o connect connect.cpp
+    729  clang++ -I/Users/jmimick/work/mongo-cxx-driver/build/install/include -I/Users/jmimick/work/boost_1_61_0/ -pthread -L/Users/jmimick/work/mongo-cxx-driver/build/install/lib -L/Users/jmimick/work/boost_1_61_0/stage/lib -lmongoclient -lboost_thread -lboost_system -lboost_regex -o connect connect.cpp
+      730  ./connect
+        731  ./connect mongodb://localhost:25000/?ssl=true
+          732  hostname -f
+            733  ./connect mongodb://MacBook-Pro.local:25000/?ssl=true
+              734  clang++ -I/Users/jmimick/work/mongo-cxx-driver/build/install/include -I/Users/jmimick/work/boost_1_61_0/ -pthread -L/Users/jmimick/work/mongo-cxx-driver/build/install/lib -L/Users/jmimick/work/boost_1_61_0/stage/lib -lmongoclient -lboost_thread -lboost_system -lboost_regex -o connect connect.cpp
+

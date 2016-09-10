@@ -1,0 +1,8 @@
+g++ hello.cpp \
+-I/Users/jmimick/work/mongo-cxx-driver/build/install/include \
+-I/Users/jmimick/work/boost_1_61_0/ \
+-pthread \
+-L/Users/jmimick/work/mongo-cxx-driver/build/install/lib \
+-L/Users/jmimick/work/boost_1_61_0/stage/lib \
+-lboost_thread-mt -lboost_filesystem -lboost_program_options -lboost_system \
+-o hello

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Authentication;
+using System.Net.Security;
 
 namespace HelloMongoCSharp
 {
@@ -9,6 +12,8 @@ namespace HelloMongoCSharp
 	{
 		public static void Main (string[] args)
 		{
+            ConnectSSL(args);
+            /*
             if ( args.Length > 0 && args[0]=="testConnectionString" ) {
                 Console.WriteLine("foo");
                 TestConnectionString(args);
@@ -16,7 +21,54 @@ namespace HelloMongoCSharp
             }
 			Console.WriteLine ("Hello MongoDB with CSharp!");
 			ValidateWriteResultNew ();
+            */
 		}
+
+        public async static void ConnectSSL(string[] args) {
+            try {
+                var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(args[0]));
+                clientSettings.SslSettings = new SslSettings();
+                clientSettings.UseSsl = true;
+                /*
+                clientSettings.SslSettings.ClientCertificates = new List<X509Certificate>()
+                    {
+                        new X509Certificate("/Users/jmimick/work/netbrain/ssl/mongodb-cert.crt")
+                    }; 
+                    */
+                clientSettings.SslSettings.EnabledSslProtocols = SslProtocols.Default;
+                /*
+                clientSettings.SslSettings.ClientCertificateSelectionCallback =
+                        (sender, host, certificates, certificate, issuers) => clientSettings.SslSettings.ClientCertificates.ToList()[0];
+                */
+                //clientSettings.SslSettings.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+               clientSettings.SslSettings.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                {
+                    foreach (var item in chain.ChainElements)
+                    {
+                        foreach (var elemStatus in item.ChainElementStatus)
+                        {
+                            Console.WriteLine( item.Certificate.Subject + "->" + elemStatus.StatusInformation);
+                        }
+                    }
+
+                    return true; //NOT FOR PRODUCTION: this line will bypass certificate errors.
+                };
+                //+= validationCallback;
+                Console.WriteLine("Attempting connection to: " + args[0]);
+                var client = new MongoClient(clientSettings);
+
+                Console.WriteLine(client);
+                var dbs = client.GetServer().GetDatabaseNames();
+                foreach(var db in dbs) {
+                    Console.WriteLine(db);
+                }
+                Console.WriteLine("Press <return> to exit.");
+                Console.ReadLine();
+            } catch (Exception e) {
+                Console.WriteLine("error--");
+                Console.WriteLine(e.Message);
+            } 
+        }
 
         public async static void TestConnectionString(string[] args) {
             if ( args.Length <= 1 ) {

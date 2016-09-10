@@ -1,0 +1,4 @@
+clang++ hello.cpp -stdlib=libstdc++ -pthread \
+        -lmongoclient -lboost_thread -lboost_filesystem \
+        -lboost_program_options -lboost_system \
+        -o hello
