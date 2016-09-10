@@ -32,20 +32,21 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MongoDB.Bson">
-      <HintPath>..\..\C#\CSharpDriver-2.0.0\MongoDB.Bson.dll</HintPath>
+      <HintPath>lib\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver.Core">
-      <HintPath>..\..\C#\CSharpDriver-2.0.0\MongoDB.Driver.Core.dll</HintPath>
+      <HintPath>lib\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver">
-      <HintPath>..\..\C#\CSharpDriver-2.0.0\MongoDB.Driver.dll</HintPath>
+      <HintPath>lib\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver.Legacy">
-      <HintPath>..\..\C#\CSharpDriver-2.0.0\MongoDB.Driver.Legacy.dll</HintPath>
+      <HintPath>lib\MongoDB.Driver.Legacy.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="HelloSSL.cs" />
+    <!--    <Compile Include="Program.cs" /> -->
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
