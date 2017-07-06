@@ -1,0 +1,23 @@
+{
+  "_id": "$objectid",
+  "details": {
+    "user_name": { "$string" : { "length" : 10 } },
+    "display_name": { "$concat" : { "items" : [ { "$string" : { "length" : 10 } },
+                                                { "$string" : { "length" : 15 } } ],
+                                     "sep" : " " } },
+    "permissions": {
+      "hic": { "$choose" : [
+        "author", "editor", "approver", "translator"
+      ] },
+      "outcomes": { "$choose" : [
+        "author", "editor", "approver", "translator"
+      ] },
+      "locales": { "$choose" : [
+        "author", "editor", "approver", "translator"
+      ] }
+      }
+  },
+  "preferences": {
+    "save_location": { "$choose" : [ true, false ] },
+    "font_size" : { "$choose" : [ "normal", "bigger", "biggest" ] }
+  }
