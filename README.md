@@ -11,6 +11,7 @@ calendar to move to the next fully booked day. (I am very happy our planet conti
 
 [@jmimick](https://twitter.com/jmimick)
 
+usb_drive - sample data for MongoDB training: [https://www.dropbox.com/s/48c8kxi29g9a79b/sample_data.zip?dl=0](https://www.dropbox.com/s/48c8kxi29g9a79b/sample_data.zip?dl=0)
 
 This stuff below is a non-complete agenda for a MongoDB training:
 
