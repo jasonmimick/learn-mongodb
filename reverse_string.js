@@ -13,3 +13,7 @@ var test = function(s) {
 test('Hello');
 
 test('What is up doc?');
+
+// OR
+"hello world, this is better".split("").reverse().join("")
+
